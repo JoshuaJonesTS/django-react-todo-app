@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/JoshuaJonesTS/django-react-todo-app/issues"
   },
-  "homepage": "https://github.com/JoshuaJonesTS/django-react-todo-app#readme"
+  "homepage": "https://github.com/JoshuaJonesTS/django-react-todo-app#readme",
+  "dependencies": {
+    "concurrently": "^7.6.0"
+  }
 }
