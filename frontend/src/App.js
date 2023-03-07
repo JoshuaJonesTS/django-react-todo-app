@@ -1,19 +1,37 @@
 import React from 'react';
 import './App.css';
 
+const baseAPI = 'http://127.0.0.1:8000';
+
 class App extends React.Component {
   
   constructor(props) {
     super(props);
-      this.state = {
-        todoList: [],
-        activeItem: {
-          id: null,
-          title: '',
-          completed: false
-        },
-        editing: false,
-      }
+    this.state = {
+      todoList: [],
+      activeItem: {
+        id: null,
+        title: '',
+        completed: false
+      },
+      editing: false,
+    }
+    this.fetchTasks = this.fetchTasks.bind(this)
+  }
+
+  componentWillMount() {
+    this.fetchTasks()
+  }
+
+  fetchTasks() {
+    console.log("Fetching...");
+    fetch(baseAPI + '/api/task-list/')
+    .then(response => response.json())
+    .then(data => {
+      this.state({
+        todoList:data
+      })
+    })
   }
 
   render() {
