@@ -20,6 +20,7 @@ class App extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getCookie = this.getCookie.bind(this);
+    this.startEdit = this.startEdit.bind(this);
   }
 
   getCookie(name) {
@@ -71,13 +72,21 @@ class App extends React.Component {
     e.preventDefault();
     console.log("ITEM", this.state.activeItem);
 
-    var csrftoken = this.getCookie('csrftoken')
+    var csrftoken = this.getCookie('csrftoken');
 
     var url = baseURL + '/api/task-create/';
+    
+    if(this.state.editing == true) {
+      url = baseURL + `/api/task-update/${this.state.activeItem.id}/`;
+      this.setState({
+        editing: false
+      })
+    }
+
     fetch(url, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-type': 'application/json',
         'X-CSRFToken': csrftoken
       },
       body: JSON.stringify(this.state.activeItem)
@@ -130,7 +139,7 @@ class App extends React.Component {
                     <span>{task.title}</span>
                   </div>
                   <div style={{flex:1}}>
-                    <button onClick={() => self.startEdit(task)}className='btn btn-sm btn-outline-info'>Edit</button>
+                    <button onClick={() => self.startEdit(task)} className='btn btn-sm btn-outline-info'>Edit</button>
                   </div>
                   <div style={{flex:1}}>
                     <button className='btn btn-sm btn-outline-dark delete'>-</button>
