@@ -21,6 +21,7 @@ class App extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getCookie = this.getCookie.bind(this);
     this.startEdit = this.startEdit.bind(this);
+    this.deleteItem = this.deleteItem.bind(this)
   }
 
   getCookie(name) {
