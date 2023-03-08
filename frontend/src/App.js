@@ -21,7 +21,8 @@ class App extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getCookie = this.getCookie.bind(this);
     this.startEdit = this.startEdit.bind(this);
-    this.deleteItem = this.deleteItem.bind(this)
+    this.deleteItem = this.deleteItem.bind(this);
+    this.strikeUnstrike = this.strikeUnstrike.bind(this);
   }
 
   getCookie(name) {
@@ -129,6 +130,26 @@ class App extends React.Component {
     })
   }
 
+  strikeUnstrike(task){
+
+    task.completed = !task.completed
+    var csrftoken = this.getCookie('csrftoken')
+    var url = baseURL + `/api/task-update/${task.id}/`
+
+      fetch(url, {
+        method:'POST',
+        headers:{
+          'Content-type':'application/json',
+          'X-CSRFToken':csrftoken,
+        },
+        body:JSON.stringify({'completed': task.completed, 'title':task.title})
+      }).then(() => {
+        this.fetchTasks()
+      })
+
+    console.log('TASK:', task.completed)
+  }
+
   render() {
     var tasks = this.state.todoList;
     var self = this;
@@ -151,7 +172,7 @@ class App extends React.Component {
             {tasks.map(function(task, index) {
               return(
                 <div key={index} className="task-wrapper flex-wrapper">
-                  <div style={{flex:7}}>
+                  <div onClick={() => self.strikeUnstrike(task)} style={{flex:7}}>
                     {task.completed == false ? (
                        <span>{task.title}</span>
                     ) : (
