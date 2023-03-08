@@ -152,7 +152,11 @@ class App extends React.Component {
               return(
                 <div key={index} className="task-wrapper flex-wrapper">
                   <div style={{flex:7}}>
-                    <span>{task.title}</span>
+                    {task.completed == false ? (
+                       <span>{task.title}</span>
+                    ) : (
+                      <strike>{task.title}</strike>
+                    )}
                   </div>
                   <div style={{flex:1}}>
                     <button onClick={() => self.startEdit(task)} className='btn btn-sm btn-outline-info'>Edit</button>
